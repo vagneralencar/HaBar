@@ -4,6 +4,14 @@
 
 ---
 
+## Screenshots
+
+| Main Dashboard (Scenes, Rooms & Inline Dimmer) | Light Detail (RGB Dome, Kelvin & Effects) |
+| :---: | :---: |
+| ![HaBar Dashboard](docs/screenshots/habar-dashboard.png) | ![HaBar Light Detail](docs/screenshots/habar-light-detail.png) |
+
+---
+
 ## Features
 
 - **Native macOS Vibrancy UI (`NSVisualEffectView`)**: Dark frosted-glass popover matching macOS Sequoia / Control Center.

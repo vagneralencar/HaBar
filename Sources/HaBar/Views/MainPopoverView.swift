@@ -22,11 +22,16 @@ public struct MainPopoverView: View {
 
     public var body: some View {
         ZStack {
-            VisualEffectBlur(material: .hudWindow, blendingMode: .behindWindow)
-                .ignoresSafeArea()
+            if store.isScreenshotPreview {
+                Color(red: 0.10, green: 0.10, blue: 0.12)
+                    .ignoresSafeArea()
+            } else {
+                VisualEffectBlur(material: .hudWindow, blendingMode: .behindWindow)
+                    .ignoresSafeArea()
 
-            AppTheme.popoverBackground
-                .ignoresSafeArea()
+                AppTheme.popoverBackground
+                    .ignoresSafeArea()
+            }
 
             if store.isShowingSettings {
                 SettingsView(store: store)
@@ -321,20 +326,22 @@ public struct MainPopoverView: View {
     }
 
     private var footerSection: some View {
-        HStack(spacing: 6) {
+        HStack(spacing: 5) {
             Spacer()
             let count = store.activeLightsCount
             let lightLabel = count == 1 ? "1 dispositivo ligado" : "\(count) dispositivos ligados"
-            Text("\(lightLabel)  •  \(store.scenes.count) cenas  •")
-                .font(.system(size: 11.5, weight: .medium))
+            Text("\(lightLabel) • \(store.scenes.count) cenas •")
+                .font(.system(size: 11, weight: .medium))
                 .foregroundColor(.white.opacity(0.55))
+                .lineLimit(1)
 
             Button {
                 store.openHomeAssistantInBrowser()
             } label: {
                 Text("Abrir Home Assistant ↗")
-                    .font(.system(size: 11.5, weight: .semibold))
-                    .foregroundColor(.white.opacity(0.75))
+                    .font(.system(size: 11, weight: .semibold))
+                    .foregroundColor(.white.opacity(0.78))
+                    .lineLimit(1)
             }
             .buttonStyle(.plain)
             Spacer()

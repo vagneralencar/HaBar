@@ -46,6 +46,7 @@ public final class HomeAssistantStore: ObservableObject, HomeAssistantClientDele
     @Published public var serverURLString: String
     @Published public var accessToken: String
     @Published public private(set) var connectionStatus: HAConnectionStatus = .connecting
+    public let isScreenshotPreview: Bool
 
     private let client: HomeAssistantClient
     private var deviceIndexById: [String: Int] = [:]
@@ -54,6 +55,7 @@ public final class HomeAssistantStore: ObservableObject, HomeAssistantClientDele
 
     public init(client: HomeAssistantClient = HomeAssistantClient()) {
         self.client = client
+        self.isScreenshotPreview = false
         let savedURL = KeychainHelper.serverURLString
         let savedToken = KeychainHelper.loadToken()
         self.serverURLString = savedURL
@@ -68,6 +70,26 @@ public final class HomeAssistantStore: ObservableObject, HomeAssistantClientDele
         } else {
             self.connectionStatus = .demoMode(host: hostDisplay)
         }
+    }
+
+    public static func makeScreenshotDemoStore() -> HomeAssistantStore {
+        let store = HomeAssistantStore(isScreenshotPreview: true)
+        return store
+    }
+
+    private init(isScreenshotPreview: Bool) {
+        self.client = HomeAssistantClient()
+        self.isScreenshotPreview = isScreenshotPreview
+        self.serverURLString = "http://homeassistant.local:8123"
+        self.accessToken = ""
+        self.connectionStatus = .connected(host: "homeassistant.local")
+        var demoScenes = HASceneItem.defaultMockupScenes
+        if !demoScenes.isEmpty {
+            demoScenes[0].isActive = true
+        }
+        self.scenes = demoScenes
+        self.devices = HADeviceItem.defaultMockupDevices
+        rebuildIndexMap()
     }
 
     // MARK: - Computed High-Performance Queries
