@@ -1,0 +1,17 @@
+# Swift Package Manager & Xcode
+.build/
+.swiftpm/
+DerivedData/
+*.xcodeproj
+*.xcworkspace
+xcuserdata/
+
+# Built App Bundles
+*.app/
+
+# macOS System Files
+.DS_Store
+
+# Local Configs & Secrets
+.env
+config.json
